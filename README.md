@@ -22,30 +22,30 @@ suggestions_prestashop
 Распаковать дистрибутив в папку modules рабочей директории prestashop и переименовать suggestions_prestashop-версия в suggestions_prestashop.
 ### Проверка корректности
 В консоли администрирования prestashop выбрать пункт меню "Модули", модуль будет расположен в категории "Оформление заказа".
-!(docs/dadata-prestashop-admin.png)
-!(docs/dadata-prestashop-plugins.png)
-!(docs/dadata-prestashop-plugins-install.png)
+![](docs/dadata-prestashop-admin.png)
+![](docs/dadata-prestashop-plugins.png)
+![](docs/dadata-prestashop-plugins-install.png)
 ### Получение API токена DaData
 Для этого нужно перейти на сайт [DaData] (https://dadata.ru)
-!(docs/dadata-home.png)
+![](docs/dadata-home.png)
 Нажать кнопку "Войти".
-!(docs/dadata-login.png)
+![](docs/dadata-login.png)
 В случае, если у вас уже есть учетная запись, необходимо ввести данные в форме, либо войти через ученую запись любой из предложенных социальных сетей.
 В случае, если вы хотите зарегистрироваться с помощью e-mail адреса перейдите по ссылке "Это недолго" в верхней части формы и заполните предлагаемые поля.
-!(docs/dadata-new.png)
+![](docs/dadata-new.png)
 Далее в правом-верхнем углу необходимо нажать кнопку профиля и выбрать пункт "Настройки"
-!(docs/dadata-menu.png)
+![](docs/dadata-menu.png)
 В появившейся форме нажать на ссылку сгенерировать.
-!(docs/dadata-settings-initial.png)
+![](docs/dadata-settings-initial.png)
 Полученный токен необходимо скопировать.
-!(docs/dadata-settings-initial.png)
+![](docs/dadata-settings-initial.png)
 ### Включение и настройка плагина
 В консоли администрирования нужно нажать кнопку установить напротив модуля "Подсказки DaData.ru"
-!(docs/dadata-prestashop-plugins-install.png)
+![](docs/dadata-prestashop-plugins-install.png)
 Вы попадете на страницу настроек плагина
-!(docs/dadata-prestashop-plugins-settings-initia.png)
+![](docs/dadata-prestashop-plugins-settings-initia.png)
 Далее необходимо ввести токен полученный ранее и нажать кнопку "Сохранить"
-!(docs/dadata-prestashop-plugins-settings-edited.png)
+![](docs/dadata-prestashop-plugins-settings-edited.png)
 
 Плагин готов к работе.
 
@@ -63,9 +63,9 @@ suggestions_prestashop
 
 Скриншоты
 ---------
-!(docs/dadata-prestashop-demo-1.png)
-!(docs/dadata-prestashop-demo-2.png)
-!(docs/dadata-prestashop-demo-3.png)
-!(docs/dadata-prestashop-demo-4.png)
-!(docs/dadata-prestashop-demo-5.png)
+![](docs/dadata-prestashop-demo-1.png)
+![](docs/dadata-prestashop-demo-2.png)
+![](docs/dadata-prestashop-demo-3.png)
+![](docs/dadata-prestashop-demo-4.png)
+![](docs/dadata-prestashop-demo-5.png)
 

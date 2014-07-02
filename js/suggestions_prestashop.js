@@ -24,17 +24,27 @@ var dadataSuggestions = {
             $('#' + id).removeClass('ok_field').addClass('error_field');
             $('#' + id + ' ~ .validity').removeClass('valid_ok').removeClass('valid_blank').addClass('valid_nok');
         }
-        $('#postcode').val(suggestion.data.postal_code).change();
         if (!suggestion.data.city && !suggestion.data.settlement){
-            $('#city').val(suggestion.data.region).change();
+            $('#city').val(suggestion.data.region).change().click();
         } else {
             $('#city').val((suggestion.data.city?suggestion.data.city_type + ' ' + suggestion.data.city:'') +
-                (suggestion.data.settlement?' ' + suggestion.data.settlement_type + ' ' + suggestion.data.settlement:'')).change();
+                (suggestion.data.settlement?' ' + suggestion.data.settlement_type + ' ' + suggestion.data.settlement:'')).change().click();
         }
-        $('#id_country').val(this.getIdFromField('id_country',suggestion.data.country)).change();
-        $('#address1').val($('#' + id).val()).change();
-        $('#id_state').val(this.getIdFromField('id_state',suggestion.date.region)).change();
-        console.log(suggestion.data);
+        $('#id_country').val(this.getIdFromField('id_country',suggestion.data.country)).change().click();
+        $('#address1').val($('#' + id).val()).change().click();
+        $('#id_state').val(this.getIdFromField('id_state',suggestion.data.region)).change().click();
+        $('#postcode').val(suggestion.data.postal_code).change().click();
+        $('#city').addClass('ok_field').removeClass('error_field');
+        $('#city ~ .validity').addClass('valid_ok').removeClass('valid_blank').removeClass('valid_nok');
+        $('#id_country').addClass('ok_field').removeClass('error_field');
+        $('#id_country ~ .validity').addClass('valid_ok').removeClass('valid_blank').removeClass('valid_nok');
+        $('#address1').addClass('ok_field').removeClass('error_field');
+        $('#address1 ~ .validity').addClass('valid_ok').removeClass('valid_blank').removeClass('valid_nok');
+        $('#id_state').addClass('ok_field').removeClass('error_field');
+        $('#id_state ~ .validity').addClass('valid_ok').removeClass('valid_blank').removeClass('valid_nok');
+        $('#postcode').addClass('ok_field').removeClass('error_field');
+        $('#postcode ~ .validity').addClass('valid_ok').removeClass('valid_blank').removeClass('valid_nok');
+//        console.log(suggestion.data);
 
     },
     validateInputFIO: function (suggestion,id) {

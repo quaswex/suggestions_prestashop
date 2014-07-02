@@ -33,6 +33,7 @@ class suggestions_prestashop extends Module
             !$this->registerHook('displayCustomerAccountForm') ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_TOKEN','') ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_COUNT',10) ||
+            !Configuration::updateValue('DADATA_SUGGESTIONS_HIDE',true) ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_TRIG_SEL_SPC',true))
             return false;
         return true;
@@ -43,6 +44,7 @@ class suggestions_prestashop extends Module
         if (!parent::uninstall() ||
             !Configuration::deleteByName('DADATA_SUGGESTIONS_TOKEN') ||
             !Configuration::deleteByName('DADATA_SUGGESTIONS_COUNT') ||
+            !Configuration::deleteByName('DADATA_SUGGESTIONS_HIDE') ||
             !Configuration::deleteByName('DADATA_SUGGESTIONS_TRIG_SEL_SPC'))
             return false;
         return true;
@@ -51,8 +53,10 @@ class suggestions_prestashop extends Module
     protected function generateFIOScript($id) {
         $output = null;
         $output .= '    $("#firstname").parent().before(dadataSuggestions.generateInputHTML("'.$id.'","'.$this->l('Full Name').'"));';
-        $output .= '    $("#firstname").parent().attr("style","display: none !important");';
-        $output .= '    $("#lastname").parent().attr("style","display: none !important");';
+        if (Configuration::get('DADATA_SUGGESTIONS_HIDE')==1) {
+            $output .= '    $("#firstname").parent().attr("style","display: none !important");';
+            $output .= '    $("#lastname").parent().attr("style","display: none !important");';
+        }
         $output .= '    $("#sug-fio").suggestions({';
         $output .= '        serviceUrl: "https://dadata.ru/api/v2",';
         $output .= '        token: "'.strval(Configuration::get('DADATA_SUGGESTIONS_TOKEN')).'",';
@@ -66,11 +70,13 @@ class suggestions_prestashop extends Module
     protected function generateAddressScript($id) {
         $output = null;
         $output .= '    $("#address1").parent().before(dadataSuggestions.generateInputHTML("'.$id.'","'.$this->l('Full Address').'"));';
-        $output .= '    $("#address1").parent().attr("style","display: none !important");';
-        $output .= '    $("#city").parent().attr("style","display: none !important");';
-        $output .= '    $("#id_country").parent().attr("style","display: none !important");';
-        $output .= '    $("#id_state").parent().attr("style","display: none !important");';
-        $output .= '    $("#postcode").parent().attr("style","display: none !important");';
+        if (Configuration::get('DADATA_SUGGESTIONS_HIDE')==1) {
+            $output .= '    $("#address1").attr("disabled",true);';
+            $output .= '    $("#city").attr("disabled",true);';
+            $output .= '    $("#id_country").attr("disabled",true);';
+            $output .= '    $("#id_state").attr("disabled",true);';
+            $output .= '    $("#postcode").attr("disabled",true);';
+        }
         $output .= '    $("#'.$id.'").suggestions({';
         $output .= '        serviceUrl: "https://dadata.ru/api/v2",';
         $output .= '        token: "'.strval(Configuration::get('DADATA_SUGGESTIONS_TOKEN')).'",';
@@ -104,6 +110,7 @@ class suggestions_prestashop extends Module
             $dadata_token = strval(Tools::getValue('DADATA_SUGGESTIONS_TOKEN'));
             $dadata_count = strval(Tools::getValue('DADATA_SUGGESTIONS_COUNT'));
             $dadata_trig_sel_spc = strval(Tools::getValue('DADATA_SUGGESTIONS_TRIG_SEL_SPC'));
+            $dadata_hide = strval(Tools::getValue('DADATA_SUGGESTIONS_HIDE'));
             if (!$dadata_token
                 || empty($dadata_token)
                 || !Validate::isSha1($dadata_token)
@@ -111,6 +118,8 @@ class suggestions_prestashop extends Module
                 $output .= $this->displayError($this->l('Invalid').' '.$this->l('DaData.ru API Token'));
             elseif (!Validate::isBool($dadata_trig_sel_spc))
                 $output .= $this->displayError($this->l('Invalid auto correct selection'));
+            elseif (!Validate::isBool($dadata_hide))
+                $output .= $this->displayError($this->l('Invalid hide selection'));
             elseif (!$dadata_count
                 || empty($dadata_count)
                 || !Validate::isUnsignedInt($dadata_count)
@@ -122,6 +131,7 @@ class suggestions_prestashop extends Module
                 Configuration::updateValue('DADATA_SUGGESTIONS_TOKEN', $dadata_token);
                 Configuration::updateValue('DADATA_SUGGESTIONS_COUNT', $dadata_count);
                 Configuration::updateValue('DADATA_SUGGESTIONS_TRIG_SEL_SPC', $dadata_trig_sel_spc);
+                Configuration::updateValue('DADATA_SUGGESTIONS_HIDE', $dadata_hide);
                 $output .= $this->displayConfirmation($this->l('Settings updated'));
             }
         }
@@ -158,6 +168,27 @@ class suggestions_prestashop extends Module
                     'type' => 'radio',
                     'label' => $this->l('Automatic correction on input'),
                     'name' => 'DADATA_SUGGESTIONS_TRIG_SEL_SPC',
+                    'required' => true,
+                    'class' => 't',
+                    'is_bool' => true,
+                    'values' => array(
+                        array(
+                            'id' => 'active_on',
+                            'value' => 1,
+                            'label' => $this->l('Enabled')
+                        ),
+                        array(
+                            'id' => 'active_off',
+                            'value' => 0,
+                            'label' => $this->l('Disabled')
+                        )
+
+                    )
+                ),
+                array(
+                    'type' => 'radio',
+                    'label' => $this->l('Disable address fields'),
+                    'name' => 'DADATA_SUGGESTIONS_HIDE',
                     'required' => true,
                     'class' => 't',
                     'is_bool' => true,
@@ -216,6 +247,7 @@ class suggestions_prestashop extends Module
         $helper->fields_value['DADATA_SUGGESTIONS_TOKEN'] = Configuration::get('DADATA_SUGGESTIONS_TOKEN');
         $helper->fields_value['DADATA_SUGGESTIONS_COUNT'] = Configuration::get('DADATA_SUGGESTIONS_COUNT');
         $helper->fields_value['DADATA_SUGGESTIONS_TRIG_SEL_SPC'] = Configuration::get('DADATA_SUGGESTIONS_TRIG_SEL_SPC');
+        $helper->fields_value['DADATA_SUGGESTIONS_HIDE'] = Configuration::get('DADATA_SUGGESTIONS_HIDE');
 
         return $helper->generateForm($fields_form);
     }

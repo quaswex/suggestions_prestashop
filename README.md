@@ -14,7 +14,7 @@ suggestions_prestashop
 Дистрибутив
 -----------
 
-Последняя версия дистрибутива находится [тут] (https://github.com/hflabs/suggestions_prestashop/archive/1.0.zip)
+Последняя версия дистрибутива находится [тут] (https://github.com/hflabs/suggestions_prestashop/archive/v1.0.zip)
 
 Установка
 ---------

@@ -35,15 +35,10 @@ suggestions_prestashop
 ![](doc/dadata-home.png)
 
 Нажать кнопку "Войти".
-<<<<<<< HEAD
-!(docs/dadata-login.png)
-В случае, если у вас уже есть учетная запись, необходимо ввести данные в форме, либо войти через учетную запись любой из предложенных социальных сетей.
-=======
 
 ![](doc/dadata-login.png)
 
-В случае, если у вас уже есть учетная запись, необходимо ввести данные в форме, либо войти через ученую запись любой из предложенных социальных сетей.
->>>>>>> f03c6b6309883cd94b8cb0b106a59755f93e908d
+В случае, если у вас уже есть учетная запись, необходимо ввести данные в форме, либо войти через учетную запись любой из предложенных социальных сетей.
 В случае, если вы хотите зарегистрироваться с помощью e-mail адреса перейдите по ссылке "Это недолго" в верхней части формы и заполните предлагаемые поля.
 
 ![](doc/dadata-new.png)
@@ -89,15 +84,6 @@ suggestions_prestashop
 
 Скриншоты
 ---------
-<<<<<<< HEAD
-!(docs/dadata-prestashop-demo-1.png)
-!(docs/dadata-prestashop-demo-2.png)
-!(docs/dadata-prestashop-demo-3.png)
-=======
 ![](doc/dadata-prestashop-demo-1.png)
 ![](doc/dadata-prestashop-demo-2.png)
 ![](doc/dadata-prestashop-demo-3.png)
-![](doc/dadata-prestashop-demo-4.png)
-![](doc/dadata-prestashop-demo-5.png)
->>>>>>> f03c6b6309883cd94b8cb0b106a59755f93e908d
-

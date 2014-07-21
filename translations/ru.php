@@ -10,11 +10,13 @@ $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_138b26c3df7
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_4bbb8f967da6d1a610596d7257179c2b'] = 'Некорректный';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_4be67bd5254086e7665a6f137aa4bdd2'] = 'API токен DaData.ru';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_9b046251eb925b86b082787ff3b2c628'] = 'Некорректное значение поля исправления ошибок';
+$_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_777b18c9e5951525eb8ae4f0ef77225f'] = 'Некорректное значение поля \"возможность изменения гранулярных полей\"';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_72dc709fa1270c36d5e20b0ee680ddfa'] = 'Максимальное количество подсказок в списке';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_c888438d14855d7d96a2724ee9c306bd'] = 'Настройки обновлены';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_f4f70727dc34561dfde1a3c529b6205c'] = 'Настройки';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_e06bdafc8fe48f5d66696de8179f7e35'] = 'Автоматическое исправление по мере ввода';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_00d23a76e43b46dae9ec7aa9dcbebb32'] = 'Включено';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_b9f5c797ebbf55adccdd8539a65a0241'] = 'Выключено';
+$_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_25b6686e19be28b4e639d8178d71d036'] = 'Выключить возможность изменения гранулярных полей';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_c9cc8cce247e49bae79f15173ce97354'] = 'Сохранить';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_630f6dc397fe74e52d5189e2c80f282b'] = 'Возврат к списку';

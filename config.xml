@@ -2,7 +2,7 @@
         <module>
             <name>suggestions_prestashop</name>
             <displayName><![CDATA[Подсказки DaData.ru]]></displayName>
-            <version><![CDATA[1.0]]></version>
+            <version><![CDATA[1.1]]></version>
             <description><![CDATA[Плагин, позволяющий подсказывать значения ФИО и Адресов через сервис DaData.ru]]></description>
             <author><![CDATA[Human Factor Labs]]></author>
             <tab><![CDATA[checkout]]></tab>

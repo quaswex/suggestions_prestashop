@@ -8,7 +8,7 @@ class suggestions_prestashop extends Module
     {
         $this->name = 'suggestions_prestashop';
         $this->tab = 'checkout';
-        $this->version = '1.0';
+        $this->version = '1.1';
         $this->author = 'Human Factor Labs';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min'=>'1.5', 'max'=>'1.6');
@@ -71,11 +71,7 @@ class suggestions_prestashop extends Module
         $output = null;
         $output .= '    $("#address1").parent().before(dadataSuggestions.generateInputHTML("'.$id.'","'.$this->l('Full Address').'"));';
         if (Configuration::get('DADATA_SUGGESTIONS_HIDE')==1) {
-            $output .= '    $("#address1").attr("disabled",true);';
-            $output .= '    $("#city").attr("disabled",true);';
-            $output .= '    $("#id_country").attr("disabled",true);';
-            $output .= '    $("#id_state").attr("disabled",true);';
-            $output .= '    $("#postcode").attr("disabled",true);';
+            $output .= '$("#id_country").change(dadataSuggestions.changeCountryHandler).change();';
         }
         $output .= '    $("#'.$id.'").suggestions({';
         $output .= '        serviceUrl: "https://dadata.ru/api/v2",';

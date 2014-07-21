@@ -47,6 +47,20 @@ var dadataSuggestions = {
 //        console.log(suggestion.data);
 
     },
+    resetAddressFields: function () {
+
+        $('#city').removeClass('ok_field').removeClass('error_field');
+        $('#city ~ .validity').removeClass('valid_ok').addClass('valid_blank').removeClass('valid_nok');
+        $('#id_country').removeClass('ok_field').removeClass('error_field');
+        $('#id_country ~ .validity').removeClass('valid_ok').addClass('valid_blank').removeClass('valid_nok');
+        $('#address1').removeClass('ok_field').removeClass('error_field');
+        $('#address1 ~ .validity').removeClass('valid_ok').addClass('valid_blank').removeClass('valid_nok');
+        $('#id_state').removeClass('ok_field').removeClass('error_field');
+        $('#id_state ~ .validity').removeClass('valid_ok').addClass('valid_blank').removeClass('valid_nok');
+        $('#postcode').removeClass('ok_field').removeClass('error_field');
+        $('#postcode ~ .validity').removeClass('valid_ok').addClass('valid_blank').removeClass('valid_nok');
+
+    },
     validateInputFIO: function (suggestion,id) {
         if (suggestion.data.name && suggestion.data.surname) {
             $('#' + id).addClass('ok_field').removeClass('error_field');
@@ -60,6 +74,25 @@ var dadataSuggestions = {
     },
     getIdFromField: function (id, text) {
         return $('#' + id + ' option').filter(function () {return $(this).html().toLowerCase().search(text.toLowerCase())!=-1;}).val();
+    },
+    toggleAddressFields: function (isEnabled) {
+        if (isEnabled) {
+            $("#address1").attr("disabled",true);
+            $("#city").attr("disabled",true);
+            $("#id_state").attr("disabled",true);
+            $("#postcode").attr("disabled",true);
+            $("#sug-address").removeAttr("disabled");
+        } else {
+            $("#address1").removeAttr("disabled");
+            $("#city").removeAttr("disabled");
+            $("#id_state").removeAttr("disabled");
+            $("#postcode").removeAttr("disabled");
+            $("#sug-address").attr("disabled",true);
+        }
+        dadataSuggestions.resetAddressFields();
+    },
+    changeCountryHandler: function(e){
+        dadataSuggestions.toggleAddressFields($('#id_country').val()==dadataSuggestions.getIdFromField('id_country','Россия'));
     }
 
 }

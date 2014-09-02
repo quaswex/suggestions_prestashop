@@ -53,7 +53,7 @@ suggestions_prestashop
 
 Полученный токен необходимо скопировать.
 
-![](doc/dadata-settings-initial.png)
+![](doc/dadata-settings-token.png)
 
 ### Включение и настройка плагина
 В консоли администрирования нужно нажать кнопку установить напротив модуля "Подсказки DaData.ru"

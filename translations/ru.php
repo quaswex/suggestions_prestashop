@@ -17,6 +17,11 @@ $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_f4f70727dc3
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_e06bdafc8fe48f5d66696de8179f7e35'] = 'Автоматическое исправление по мере ввода';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_00d23a76e43b46dae9ec7aa9dcbebb32'] = 'Включено';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_b9f5c797ebbf55adccdd8539a65a0241'] = 'Выключено';
-$_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_25b6686e19be28b4e639d8178d71d036'] = 'Выключить возможность изменения гранулярных полей';
+$_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_25b6686e19be28b4e639d8178d71d036'] = 'Включить подсказки по адресу';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_c9cc8cce247e49bae79f15173ce97354'] = 'Сохранить';
 $_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_630f6dc397fe74e52d5189e2c80f282b'] = 'Возврат к списку';
+$_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_1ba80c597e23b4eaaeaf32d8d0de68ff'] = 'Версия подсказок';
+$_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_b24ce0cd392a5b0b8dedc66c25213594'] = 'Бесплатная';
+$_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_e0010a0a1a3259ab5c06a19bad532851'] = 'Платная (AWS)';
+$_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_ca70127a87e279eec1141fa458106acb'] = 'Включить подсказки по ФИО';
+//$_MODULE['<{suggestions_prestashop}prestashop>suggestions_prestashop_'] = '';

@@ -6,6 +6,7 @@ class suggestions_prestashop extends Module
 {
 
     private $available_urls = array('free'=>'https://dadata.ru/api/v2','paid'=>'http://suggestions.dadata.ru/suggestions/api/4_1/rs/');
+    private $valid_fields = array('id_state','id_country');
 
     public function __construct()
     {
@@ -40,7 +41,8 @@ class suggestions_prestashop extends Module
             !Configuration::updateValue('DADATA_SUGGESTIONS_URL','free') ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_FIO',true) ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_ADDRESS',true) ||
-            !Configuration::updateValue('DADATA_SUGGESTIONS_TRIG_SEL_SPC',true))
+            !Configuration::updateValue('DADATA_SUGGESTIONS_TRIG_SEL_SPC',true) ||
+            !Configuration::updateValue('DADATA_SUGGESTIONS_REGION_FIELD','id_state'))
             return false;
         return true;
     }
@@ -54,49 +56,30 @@ class suggestions_prestashop extends Module
             !Configuration::deleteByName('DADATA_SUGGESTIONS_URL') ||
             !Configuration::deleteByName('DADATA_SUGGESTIONS_FIO') ||
             !Configuration::deleteByName('DADATA_SUGGESTIONS_ADDRESS') ||
-            !Configuration::deleteByName('DADATA_SUGGESTIONS_TRIG_SEL_SPC'))
+            !Configuration::deleteByName('DADATA_SUGGESTIONS_TRIG_SEL_SPC') ||
+            !Configuration::deleteByName('DADATA_SUGGESTIONS_REGION_FIELD'))
             return false;
         return true;
     }
 
-    protected function generateFIOScript($id) {
-        $output = null;
-        $output .= '    $("#firstname").parent().before(dadataSuggestions.generateInputHTML("'.$id.'","'.$this->l('Full Name').'"));';
-        $output .= '    $("#firstname").parent().attr("style","display: none !important");';
-        $output .= '    $("#lastname").parent().attr("style","display: none !important");';
-        $output .= '    $("#'.$id.'").suggestions({';
-        $output .= '        serviceUrl: "'.$this->available_urls[strval(Configuration::get('DADATA_SUGGESTIONS_URL'))].'",';
-        $output .= '        token: "'.strval(Configuration::get('DADATA_SUGGESTIONS_TOKEN')).'",';
-        $output .= '        triggerSelectOnSpace: '.(Configuration::get('DADATA_SUGGESTIONS_TRIG_SEL_SPC')==1?'true':'false').',';
-        $output .= '        count: '.(Configuration::get('DADATA_SUGGESTIONS_COUNT')>0?strval(Configuration::get('DADATA_SUGGESTIONS_COUNT')):'10').',';
-        $output .= '        type: "NAME",';
-        $output .= '        onSelect: function(suggestion) {dadataSuggestions.validateInputFIO(suggestion,"'.$id.'");}';
-        $output .= '    });';
-        return $output;
-    }
-    protected function generateAddressScript($id) {
-        $output = null;
-        $output .= '    $("#address1").parent().before(dadataSuggestions.generateInputHTML("'.$id.'","'.$this->l('Full Address').'"));';
-        $output .= '$("#id_country").change(dadataSuggestions.changeCountryHandler).change();';
-        $output .= '    $("#'.$id.'").suggestions({';
-        $output .= '        serviceUrl: "'.$this->available_urls[strval(Configuration::get('DADATA_SUGGESTIONS_URL'))].'",';
-        $output .= '        token: "'.strval(Configuration::get('DADATA_SUGGESTIONS_TOKEN')).'",';
-        $output .= '        triggerSelectOnSpace: '.(Configuration::get('DADATA_SUGGESTIONS_TRIG_SEL_SPC')==1?'true':'false').',';
-        $output .= '        count: '.(Configuration::get('DADATA_SUGGESTIONS_COUNT')>0?strval(Configuration::get('DADATA_SUGGESTIONS_COUNT')):'10').',';
-        $output .= '        type: "ADDRESS",';
-        $output .= '        onSelect: function(suggestion) {dadataSuggestions.validateInputAddress(suggestion,"'.$id.'");}';
-        $output .= '    });';
-        return $output;
-
-    }
-
-
-
-    protected function wrapScriptOnLoad($script) {
+    protected function wrapScriptOnLoad() {
         $output = null;
         $output .= '<script type="text/javascript">';
         $output .= '$(document).ready(function() {';
-        $output .= $script;
+        $output .= 'dadataSuggestions.configuration = {';
+        $output .= 'suggest_fio_field: "sug-fio",';
+        $output .= 'suggest_address_field: "sug-address",';
+        $output .= 'suggest_fio_label: "'.$this->l('Full Name').'",';
+        $output .= 'suggest_address_label: "'.$this->l('Full Address').'",';
+        $output .= 'DADATA_SUGGESTIONS_URL: "'.$this->available_urls[strval(Configuration::get('DADATA_SUGGESTIONS_URL'))].'",';
+        $output .= 'DADATA_SUGGESTIONS_TOKEN: "'.strval(Configuration::get('DADATA_SUGGESTIONS_TOKEN')).'",';
+        $output .= 'DADATA_SUGGESTIONS_TRIG_SEL_SPC: '.(Configuration::get('DADATA_SUGGESTIONS_TRIG_SEL_SPC')==1?'true':'false').',';
+        $output .= 'DADATA_SUGGESTIONS_COUNT: '.(Configuration::get('DADATA_SUGGESTIONS_COUNT')>0?strval(Configuration::get('DADATA_SUGGESTIONS_COUNT')):'10').',';
+        $output .= 'DADATA_SUGGESTIONS_REGION_FIELD: "'.strval(Configuration::get('DADATA_SUGGESTIONS_REGION_FIELD')).'",';
+        $output .= 'DADATA_SUGGESTIONS_FIO: '.(Configuration::get('DADATA_SUGGESTIONS_FIO')==1?'true':'false').',';
+        $output .= 'DADATA_SUGGESTIONS_ADDRESS: '.(Configuration::get('DADATA_SUGGESTIONS_ADDRESS')==1?'true':'false');
+        $output .= '};';
+        $output .= 'dadataSuggestions.init();';
         $output .= '});';
         $output .= '</script>';
         return $output;
@@ -114,6 +97,7 @@ class suggestions_prestashop extends Module
             $dadata_url = strval(Tools::getValue('DADATA_SUGGESTIONS_URL'));
             $dadata_fio = strval(Tools::getValue('DADATA_SUGGESTIONS_FIO'));
             $dadata_address = strval(Tools::getValue('DADATA_SUGGESTIONS_ADDRESS'));
+            $dadata_region_field = strval(Tools::getValue('DADATA_SUGGESTIONS_REGION_FIELD'));
             if (!$dadata_token
                 || empty($dadata_token)
                 || !Validate::isSha1($dadata_token)
@@ -127,6 +111,8 @@ class suggestions_prestashop extends Module
                 $output .= $this->displayError($this->l('Invalid hide selection'));
             elseif (!array_key_exists($dadata_url,$this->available_urls))
                 $output .= $this->displayError($this->l('Invalid url selection'));
+            elseif (!in_array($dadata_region_field,$this->valid_fields))
+                $output .= $this->displayError($this->l('Invalid field name'));
             elseif (!$dadata_count
                 || empty($dadata_count)
                 || !Validate::isUnsignedInt($dadata_count)
@@ -141,6 +127,7 @@ class suggestions_prestashop extends Module
                 Configuration::updateValue('DADATA_SUGGESTIONS_URL', $dadata_url);
                 Configuration::updateValue('DADATA_SUGGESTIONS_FIO', $dadata_fio);
                 Configuration::updateValue('DADATA_SUGGESTIONS_ADDRESS', $dadata_address);
+                Configuration::updateValue('DADATA_SUGGESTIONS_REGION_FIELD', $dadata_region_field);
                 $output .= $this->displayConfirmation($this->l('Settings updated'));
             }
         }
@@ -256,6 +243,27 @@ class suggestions_prestashop extends Module
                         ),
 
                     )
+                ),
+                array(
+                    'type' => 'radio',
+                    'label' => $this->l('Region field id'),
+                    'name' => 'DADATA_SUGGESTIONS_REGION_FIELD',
+                    'required' => true,
+                    'class' => 't',
+                    'is_bool' => false,
+                    'values' => array(
+                        array(
+                            'id' => $this->valid_fields[0],
+                            'value' => $this->valid_fields[0],
+                            'label' => $this->l($this->valid_fields[0])
+                        ),
+                        array(
+                            'id' => $this->valid_fields[1],
+                            'value' => $this->valid_fields[1],
+                            'label' => $this->l($this->valid_fields[1])
+                        ),
+
+                    )
                 )
             ),
             'submit' => array(
@@ -302,6 +310,7 @@ class suggestions_prestashop extends Module
         $helper->fields_value['DADATA_SUGGESTIONS_ADDRESS'] = Configuration::get('DADATA_SUGGESTIONS_ADDRESS');
         $helper->fields_value['DADATA_SUGGESTIONS_TRIG_SEL_SPC'] = Configuration::get('DADATA_SUGGESTIONS_TRIG_SEL_SPC');
         $helper->fields_value['DADATA_SUGGESTIONS_HIDE'] = Configuration::get('DADATA_SUGGESTIONS_HIDE');
+        $helper->fields_value['DADATA_SUGGESTIONS_REGION_FIELD'] = Configuration::get('DADATA_SUGGESTIONS_REGION_FIELD');
 
         return $helper->generateForm($fields_form);
     }
@@ -311,13 +320,11 @@ class suggestions_prestashop extends Module
         $this->context->controller->addCSS('https://dadata.ru/static/css/lib/suggestions-4.7.css','all');
         $this->context->controller->addJs('https://dadata.ru/static/js/lib/jquery.suggestions-4.7.min.js','all');
         $this->context->controller->addJs($this->_path.'js/suggestions_prestashop.js', 'all');
+        return $this->wrapScriptOnLoad();
+
     }
 
     public function hookDisplayCustomerAccountForm(){
         //Add required handlers into form
-        return $this->wrapScriptOnLoad(
-            (Configuration::get('DADATA_SUGGESTIONS_FIO')?$this->generateFIOScript('sug-fio'):"").
-            (Configuration::get('DADATA_SUGGESTIONS_ADDRESS')?$this->generateAddressScript('sug-address'):"")
-        );
     }
 }

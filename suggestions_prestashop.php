@@ -34,7 +34,6 @@ class suggestions_prestashop extends Module
 
         if (!parent::install() ||
             !$this->registerHook('displayHeader') ||                               // Добавляем в заголовок CSS и JS
-            !$this->registerHook('displayCustomerAccountForm') ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_TOKEN','') ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_COUNT',10) ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_HIDE',true) ||
@@ -322,9 +321,5 @@ class suggestions_prestashop extends Module
         $this->context->controller->addJs($this->_path.'js/suggestions_prestashop.js', 'all');
         return $this->wrapScriptOnLoad();
 
-    }
-
-    public function hookDisplayCustomerAccountForm(){
-        //Add required handlers into form
     }
 }

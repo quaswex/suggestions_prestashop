@@ -12,7 +12,41 @@ var dadataSuggestions = {
         DADATA_SUGGESTIONS_FIO: true,
         DADATA_SUGGESTIONS_ADDRESS: true
     },
+    beforeSubmit: function (e) {
+        var self = this;
+        e.preventDefault();
+
+        $("#"+dadataSuggestions.fieldMap.full_addr).removeAttr("disabled");
+        $("#"+dadataSuggestions.fieldMap.city).removeAttr("disabled");
+        $("#"+dadataSuggestions.fieldMap.region).removeAttr("disabled");
+        $("#"+dadataSuggestions.fieldMap.postcode).removeAttr("disabled");
+        $("#" + dadataSuggestions.fieldMap.name).parent().removeAttr("style");
+        $("#" + dadataSuggestions.fieldMap.surname).parent().removeAttr("style");
+        self.submit();
+        return false; //is superfluous, but I put it here as a fallback
+
+    },
     init: function () {
+        var form_names = ['new_account_form','add_address'];
+        form_names.forEach(function (value,index,a) {
+            if ($("#"+value).length)
+                $("#"+value).submit(dadataSuggestions.beforeSubmit);
+        });
+        if (dadataSuggestions.configuration.DADATA_SUGGESTIONS_FIO && $("#"+dadataSuggestions.fieldMap.customer_name).length) {
+            $("#" + dadataSuggestions.fieldMap.customer_name).parent().before(dadataSuggestions.generateInputHTML(dadataSuggestions.configuration.suggest_fio_field, dadataSuggestions.configuration.suggest_fio_label));
+            $("#" + dadataSuggestions.fieldMap.customer_name).parent().attr("style", "display: none !important");
+            $("#" + dadataSuggestions.fieldMap.customer_surname).parent().attr("style", "display: none !important");
+            $("#" + dadataSuggestions.configuration.suggest_fio_field).suggestions({
+                serviceUrl: dadataSuggestions.configuration.DADATA_SUGGESTIONS_URL,
+                token: dadataSuggestions.configuration.DADATA_SUGGESTIONS_TOKEN,
+                triggerSelectOnSpace: dadataSuggestions.configuration.DADATA_SUGGESTIONS_TRIG_SEL_SPC,
+                count: dadataSuggestions.configuration.DADATA_SUGGESTIONS_COUNT,
+                type: "NAME",
+                onSelect: function (suggestion) {
+                    dadataSuggestions.validateInputCustomerFIO(suggestion, dadataSuggestions.configuration.suggest_fio_field);
+                }
+            });
+        }
         if (dadataSuggestions.configuration.DADATA_SUGGESTIONS_FIO && $("#"+dadataSuggestions.fieldMap.name).length) {
             $("#" + dadataSuggestions.fieldMap.name).parent().before(dadataSuggestions.generateInputHTML(dadataSuggestions.configuration.suggest_fio_field, dadataSuggestions.configuration.suggest_fio_label));
             $("#" + dadataSuggestions.fieldMap.name).parent().attr("style", "display: none !important");
@@ -47,6 +81,29 @@ var dadataSuggestions = {
                 }
             });
         }
+        if ($("#create-account_form").length){
+            var parent=$("#create-account_form").submit;
+            $("#create-account_form").submit(function () {
+                parent();
+                if (dadataSuggestions.configuration.DADATA_SUGGESTIONS_FIO && $("#"+dadataSuggestions.fieldMap.customer_name).length) {
+                    $("#" + dadataSuggestions.fieldMap.customer_name).parent().before(dadataSuggestions.generateInputHTML(dadataSuggestions.configuration.suggest_fio_field, dadataSuggestions.configuration.suggest_fio_label));
+                    $("#" + dadataSuggestions.fieldMap.customer_name).parent().attr("style", "display: none !important");
+                    $("#" + dadataSuggestions.fieldMap.customer_surname).parent().attr("style", "display: none !important");
+                    $("#" + dadataSuggestions.configuration.suggest_fio_field).suggestions({
+                        serviceUrl: dadataSuggestions.configuration.DADATA_SUGGESTIONS_URL,
+                        token: dadataSuggestions.configuration.DADATA_SUGGESTIONS_TOKEN,
+                        triggerSelectOnSpace: dadataSuggestions.configuration.DADATA_SUGGESTIONS_TRIG_SEL_SPC,
+                        count: dadataSuggestions.configuration.DADATA_SUGGESTIONS_COUNT,
+                        type: "NAME",
+                        onSelect: function (suggestion) {
+                            dadataSuggestions.validateInputCustomerFIO(suggestion, dadataSuggestions.configuration.suggest_fio_field);
+                        }
+                    });
+                }
+
+            })
+
+        }
     },
     generateInputHTML: function (id,label) {
         var output = '<p class=\"required text\">';
@@ -64,7 +121,9 @@ var dadataSuggestions = {
         'full_addr':'address1',
         'postcode':'postcode',
         'name':'firstname',
-        'surname':'lastname'
+        'surname':'lastname',
+        'customer_name':'customer_firstname',
+        'customer_surname':'customer_lastname'
     },
     setValidField: function (id,valid) {
         if (id instanceof Array){
@@ -105,6 +164,11 @@ var dadataSuggestions = {
     },
     resetAddressFields: function () {
         dadataSuggestions.setValidField([dadataSuggestions.fieldMap.city,dadataSuggestions.fieldMap.country,dadataSuggestions.fieldMap.full_addr,dadataSuggestions.fieldMap.region,dadataSuggestions.fieldMap.postcode],-1);
+    },
+    validateInputCustomerFIO: function (suggestion,id) {
+        dadataSuggestions.setValidField(id,(suggestion.data.name && suggestion.data.surname?1:0));
+        $('#'+dadataSuggestions.fieldMap.customer_name).val((suggestion.data.name?suggestion.data.name:'') + (suggestion.data.patronymic?' ' + suggestion.data.patronymic:'')).blur();
+        $('#'+dadataSuggestions.fieldMap.customer_surname).val((suggestion.data.surname?suggestion.data.surname:'')).blur();
     },
     validateInputFIO: function (suggestion,id) {
         dadataSuggestions.setValidField(id,(suggestion.data.name && suggestion.data.surname?1:0));

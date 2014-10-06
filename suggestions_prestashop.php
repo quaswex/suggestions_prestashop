@@ -12,7 +12,7 @@ class suggestions_prestashop extends Module
     {
         $this->name = 'suggestions_prestashop';
         $this->tab = 'checkout';
-        $this->version = '1.3';
+        $this->version = '1.4';
         $this->author = 'Human Factor Labs';
         $this->need_instance = 0;
         $this->ps_versions_compliancy = array('min'=>'1.5', 'max'=>'1.6');

@@ -29,8 +29,12 @@ var dadataSuggestions = {
     init: function () {
         var form_names = ['new_account_form','add_address'];
         form_names.forEach(function (value,index,a) {
-            if ($("#"+value).length)
-                $("#"+value).submit(dadataSuggestions.beforeSubmit);
+            if ($("#"+value).length)  {
+                $("#" + value).submit(dadataSuggestions.beforeSubmit);
+                var subName = $("#" + value + " > input[type='submit']").attr("name");
+                var subVal = $("#" + value + " > input[type='submit']").val();
+                $("#" + value + " > fieldset").append('<input type="hidden" value="'+subVal+'" name="'+subName+'"></input>');
+            }
         });
         if (dadataSuggestions.configuration.DADATA_SUGGESTIONS_FIO && $("#"+dadataSuggestions.fieldMap.customer_name).length) {
             $("#" + dadataSuggestions.fieldMap.customer_name).parent().before(dadataSuggestions.generateInputHTML(dadataSuggestions.configuration.suggest_fio_field, dadataSuggestions.configuration.suggest_fio_label));

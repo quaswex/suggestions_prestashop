@@ -31,8 +31,8 @@ var dadataSuggestions = {
         form_names.forEach(function (value,index,a) {
             if ($("#"+value).length)  {
                 $("#" + value).submit(dadataSuggestions.beforeSubmit);
-                var subName = $("#" + value + " > input[type='submit']").attr("name");
-                var subVal = $("#" + value + " > input[type='submit']").val();
+                var subName = $("#" + value + " :submit").attr("name");
+                var subVal = $("#" + value + " :submit").val();
                 $("#" + value + " > fieldset").append('<input type="hidden" value="'+subVal+'" name="'+subName+'"></input>');
             }
         });

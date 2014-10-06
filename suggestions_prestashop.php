@@ -34,6 +34,7 @@ class suggestions_prestashop extends Module
 
         if (!parent::install() ||
             !$this->registerHook('displayHeader') ||                               // Добавляем в заголовок CSS и JS
+            !$this->registerHook('createAccountTop') ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_TOKEN','') ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_COUNT',10) ||
             !Configuration::updateValue('DADATA_SUGGESTIONS_HIDE',true) ||
@@ -322,4 +323,8 @@ class suggestions_prestashop extends Module
         return $this->wrapScriptOnLoad();
 
     }
+
+    public function hookCreateAccountTop() {
+    return "<!-- CREATEACOOUNTTOP -->";
+}
 }

@@ -325,6 +325,6 @@ class suggestions_prestashop extends Module
     }
 
     public function hookCreateAccountTop() {
-    return "<!-- CREATEACOOUNTTOP -->";
+    return $this->wrapScriptOnLoad();
 }
 }

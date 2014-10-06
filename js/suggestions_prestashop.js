@@ -81,29 +81,6 @@ var dadataSuggestions = {
                 }
             });
         }
-        if ($("#create-account_form").length){
-            var parent=$("#create-account_form").submit;
-            $("#create-account_form").submit(function () {
-                parent();
-                if (dadataSuggestions.configuration.DADATA_SUGGESTIONS_FIO && $("#"+dadataSuggestions.fieldMap.customer_name).length) {
-                    $("#" + dadataSuggestions.fieldMap.customer_name).parent().before(dadataSuggestions.generateInputHTML(dadataSuggestions.configuration.suggest_fio_field, dadataSuggestions.configuration.suggest_fio_label));
-                    $("#" + dadataSuggestions.fieldMap.customer_name).parent().attr("style", "display: none !important");
-                    $("#" + dadataSuggestions.fieldMap.customer_surname).parent().attr("style", "display: none !important");
-                    $("#" + dadataSuggestions.configuration.suggest_fio_field).suggestions({
-                        serviceUrl: dadataSuggestions.configuration.DADATA_SUGGESTIONS_URL,
-                        token: dadataSuggestions.configuration.DADATA_SUGGESTIONS_TOKEN,
-                        triggerSelectOnSpace: dadataSuggestions.configuration.DADATA_SUGGESTIONS_TRIG_SEL_SPC,
-                        count: dadataSuggestions.configuration.DADATA_SUGGESTIONS_COUNT,
-                        type: "NAME",
-                        onSelect: function (suggestion) {
-                            dadataSuggestions.validateInputCustomerFIO(suggestion, dadataSuggestions.configuration.suggest_fio_field);
-                        }
-                    });
-                }
-
-            })
-
-        }
     },
     generateInputHTML: function (id,label) {
         var output = '<p class=\"required text\">';

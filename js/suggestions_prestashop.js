@@ -33,7 +33,7 @@ var dadataSuggestions = {
                 $("#" + value).submit(dadataSuggestions.beforeSubmit);
                 var subName = $("#" + value + " :submit").attr("name");
                 var subVal = $("#" + value + " :submit").val();
-                $("#" + value + " > fieldset").append('<input type="hidden" value="'+subVal+'" name="'+subName+'"></input>');
+                $("#" + value).append('<input type="hidden" value="'+subVal+'" name="'+subName+'"></input>');
             }
         });
         if (dadataSuggestions.configuration.DADATA_SUGGESTIONS_FIO && $("#"+dadataSuggestions.fieldMap.customer_name).length) {

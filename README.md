@@ -16,7 +16,7 @@ PrestaShop 1.5.0.0 и выше.
 Дистрибутив
 -----------
 
-Последняя версия дистрибутива находится [тут] (https://github.com/hflabs/suggestions_prestashop/archive/v1.4.zip)
+Последняя версия дистрибутива находится [тут] (https://github.com/hflabs/suggestions_prestashop/archive/v1.5.zip)
 Установка на версии ниже 1.5.5.0
 --------------------------------
 

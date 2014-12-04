@@ -13,8 +13,8 @@ var dadataSuggestions = {
             },
             {
                 suggest_field: 'sug-fio-invoice',
-                name: 'customer_firstname',
-                surname: 'customer_lastname'
+                name: 'firstname_invoice',
+                surname: 'lastname_invoice'
             }
 
 
